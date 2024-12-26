@@ -1,4 +1,5 @@
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -9,6 +10,14 @@ namespace Tyuiu.StoletovNA.Sprint7.V0 {
         public FormMain()
         {
             InitializeComponent();
+            dataGridViewFile_SNA.Sorted += dataGridViewFile_SNA_Sorted;
+
+            ToolTip toolTip = new ToolTip();
+            toolTip.SetToolTip(buttonOpenFile_SNA, "Нажмите, чтобы открыть файл");
+            toolTip.SetToolTip(buttonFormatData_SNA, "Нажмите, чтобы удалить строки без задолженности");
+            toolTip.SetToolTip(buttonSaveEditedFile_SNA, "Нажмите, чтобы сохранить файл");
+            toolTip.SetToolTip(buttonInfo_SNA, "Информация о программе");
+            toolTip.SetToolTip(buttonManual_SNA, "Открыть руководство пользователя");
         }
         DataService ds = new DataService();
         private DataTable table;
@@ -149,12 +158,12 @@ namespace Tyuiu.StoletovNA.Sprint7.V0 {
         // Кнопка <Сохранить>
         private void buttonSaveEditedFile_SNA_Click(object sender, EventArgs e)
         {
-            
+
 
             saveFileDialog_SNA.FileName = "DomUprProTest_Edited.csv";
             saveFileDialog_SNA.InitialDirectory = Directory.GetCurrentDirectory();
             saveFileDialog_SNA.ShowDialog();
-            
+
             string filepath = saveFileDialog_SNA.FileName;
             using (StreamWriter writer = new StreamWriter(filepath))
             {
@@ -183,11 +192,26 @@ namespace Tyuiu.StoletovNA.Sprint7.V0 {
             MessageBox.Show("Кнопки: \nОткрыть - Показывает окно выбора файла \nУбрать всех недолжников - Убирает из таблицы все строки без задолжности \nСохранить - Показывает окно сохранения файла \n\nДопустимый формат файлов для открытия - .CSV (любые другие вызовут ошибку)", "Руководство", MessageBoxButtons.OK);
         }
 
-        
+
         private void dataGridViewFile_SNA_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            
+
             var changedCell = dataGridViewFile_SNA.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+        }
+
+        // Цвет после сортировки
+
+        private void dataGridViewFile_SNA_Sorted(object sender, EventArgs e)
+        {
+            try
+            {
+                ChangeTextColorForSixthColumn();
+            }
+            catch
+            {
+
+            }
 
         }
 
@@ -213,7 +237,49 @@ namespace Tyuiu.StoletovNA.Sprint7.V0 {
                 }
             }
         }
+        
+        // Темный режим
+        private bool isDarkMode = false;
+        private void ToggleDarkMode()
+        {
+            this.BackColor = isDarkMode ? Color.FromArgb(224, 224, 224) : Color.FromArgb(64, 64, 64);
+            
+            isDarkMode = !isDarkMode;
+        }
 
+        private void buttonChangeMode_SNA_Click(object sender, EventArgs e)
+        {
+            ToggleDarkMode();
 
+            if (isDarkMode == false)
+            {
+                buttonChangeMode_SNA.Text = "Тёмный режим";
+            }
+            else
+            {
+                buttonChangeMode_SNA.Text = "Светлый режим";
+            }
+        }
+
+        // Открыть путь
+        private void textBoxFilePath_SNA_Click(object sender, EventArgs e)
+        {
+            if (openFilePath !=  null) 
+            {
+                try
+                {
+                    Process.Start("explorer.exe", $"/select,\"{openFilePath}\"");
+                }
+                catch
+                {
+                    MessageBox.Show("Не удалось открыть путь", "Ошибка");
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("Файл не был выбран!", "Ошибка");
+            }
+        }
     }
 }

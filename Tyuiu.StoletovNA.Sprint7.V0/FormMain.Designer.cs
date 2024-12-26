@@ -52,6 +52,7 @@
             buttonSaveEditedFile_SNA = new Button();
             buttonInfo_SNA = new Button();
             buttonManual_SNA = new Button();
+            buttonChangeMode_SNA = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewFile_SNA).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chartPie_SNA).BeginInit();
             SuspendLayout();
@@ -90,6 +91,7 @@
             textBoxFilePath_SNA.ReadOnly = true;
             textBoxFilePath_SNA.Size = new Size(374, 23);
             textBoxFilePath_SNA.TabIndex = 2;
+            textBoxFilePath_SNA.Click += textBoxFilePath_SNA_Click;
             // 
             // textBoxFilePathNamer_SNA
             // 
@@ -248,11 +250,23 @@
             buttonManual_SNA.UseVisualStyleBackColor = false;
             buttonManual_SNA.Click += buttonManual_Click;
             // 
+            // buttonChangeMode_SNA
+            // 
+            buttonChangeMode_SNA.Location = new Point(1090, 569);
+            buttonChangeMode_SNA.Name = "buttonChangeMode_SNA";
+            buttonChangeMode_SNA.Size = new Size(154, 23);
+            buttonChangeMode_SNA.TabIndex = 17;
+            buttonChangeMode_SNA.Text = "Тёмный режим";
+            buttonChangeMode_SNA.UseVisualStyleBackColor = true;
+            buttonChangeMode_SNA.Click += buttonChangeMode_SNA_Click;
+            // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(224, 224, 224);
             ClientSize = new Size(1256, 668);
+            Controls.Add(buttonChangeMode_SNA);
             Controls.Add(buttonManual_SNA);
             Controls.Add(buttonInfo_SNA);
             Controls.Add(buttonSaveEditedFile_SNA);
@@ -301,5 +315,6 @@
         private Button buttonSaveEditedFile_SNA;
         private Button buttonInfo_SNA;
         private Button buttonManual_SNA;
+        private Button buttonChangeMode_SNA;
     }
 }
